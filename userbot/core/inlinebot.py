@@ -11,7 +11,7 @@ from telethon.errors import QueryIdInvalidError
 from telethon.events import CallbackQuery, InlineQuery
 from youtubesearchpython import VideosSearch
 
-from userbot import catub
+from userbot import Meowub
 
 from ..Config import Config
 from ..helpers.functions import rand_key
@@ -30,7 +30,7 @@ from .logger import logging
 LOGS = logging.getLogger(__name__)
 
 BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\<buttonurl:(?:/{0,2})(.+?)(:same)?\>)")
-CATLOGO = "https://telegra.ph/file/493268c1f5ebedc967eba.jpg"
+MEOWLOGO = "https://telegra.ph/file/493268c1f5ebedc967eba.jpg"
 tr = Config.COMMAND_HAND_LER
 
 
@@ -78,7 +78,7 @@ def main_menu():
     return text, buttons
 
 
-def command_in_category(cname):
+def command_inegory(cname):
     cmds = 0
     for i in GRP_INFO[cname]:
         for _ in PLG_INFO[i]:
@@ -91,8 +91,8 @@ def paginate_help(
     loaded_plugins,
     prefix,
     plugins=True,
-    category_plugins=None,
-    category_pgno=0,
+egory_plugins=None,
+egory_pgno=0,
 ):  # sourcery no-metrics
     try:
         number_of_rows = int(gvarstatus("NO_OF_ROWS_IN_HELP") or 5)
@@ -118,7 +118,7 @@ def paginate_help(
             modules = [
                 Button.inline(
                     f"{HELP_EMOJI[0]} {x} {HELP_EMOJI[1]}",
-                    data=f"{x}_cmdhelp_{prefix}_{page_number}_{category_plugins}_{category_pgno}",
+                    data=f"{x}_cmdhelp_{prefix}_{page_number}_egory_plugins}_egory_pgno}",
                 )
                 for x in helpable_plugins
             ]
@@ -134,7 +134,7 @@ def paginate_help(
         modules = [
             Button.inline(
                 f"{HELP_EMOJI} {x} {HELP_EMOJI}",
-                data=f"{x}_cmdhelp_{prefix}_{page_number}_{category_plugins}_{category_pgno}",
+                data=f"{x}_cmdhelp_{prefix}_{page_number}_egory_plugins}_egory_pgno}",
             )
             for x in helpable_plugins
         ]
@@ -171,41 +171,41 @@ def paginate_help(
         else:
             pairs = pairs + [(Button.inline("⚙️ Main Menu", data="mainmenu"),)]
     elif len(pairs) > number_of_rows:
-        if category_pgno < 0:
-            category_pgno = len(pairs) + category_pgno
+        ifegory_pgno < 0:
+        egory_pgno = len(pairs) +egory_pgno
         pairs = pairs[
             modulo_page * number_of_rows : number_of_rows * (modulo_page + 1)
         ] + [
             (
                 Button.inline(
                     "⌫",
-                    data=f"{prefix}_prev({modulo_page})_command_{category_plugins}_{category_pgno}",
+                    data=f"{prefix}_prev({modulo_page})_command_egory_plugins}_egory_pgno}",
                 ),
                 Button.inline(
                     "⬅️ Back ",
-                    data=f"back_plugin_{category_plugins}_{category_pgno}",
+                    data=f"back_plugin_egory_plugins}_egory_pgno}",
                 ),
                 Button.inline(
                     "⌦",
-                    data=f"{prefix}_next({modulo_page})_command_{category_plugins}_{category_pgno}",
+                    data=f"{prefix}_next({modulo_page})_command_egory_plugins}_egory_pgno}",
                 ),
             )
         ]
     else:
-        if category_pgno < 0:
-            category_pgno = len(pairs) + category_pgno
+        ifegory_pgno < 0:
+        egory_pgno = len(pairs) +egory_pgno
         pairs = pairs + [
             (
                 Button.inline(
                     "⬅️ Back ",
-                    data=f"back_plugin_{category_plugins}_{category_pgno}",
+                    data=f"back_plugin_egory_plugins}_egory_pgno}",
                 ),
             )
         ]
     return pairs
 
 
-@catub.tgbot.on(InlineQuery)
+@Meowub.tgbot.on(InlineQuery)
 async def inline_handler(event):  # sourcery no-metrics
     builder = event.builder
     result = None
@@ -222,22 +222,22 @@ async def inline_handler(event):  # sourcery no-metrics
         match2 = re.findall(inf, query)
         hid = re.compile("hide (.*)")
         match3 = re.findall(hid, query)
-        if query.startswith("**Catuserbot"):
+        if query.startswith("**Meowuserbot"):
             buttons = [
                 (
                     Button.inline("Stats", data="stats"),
-                    Button.url("Repo", "https://github.com/sandy1709/catuserbot"),
+                    Button.url("Repo", "https://github.com/Meow-Userbot/meow_ub"),
                 )
             ]
             ALIVE_PIC = gvarstatus("ALIVE_PIC")
             IALIVE_PIC = gvarstatus("IALIVE_PIC")
             if IALIVE_PIC:
-                CAT = [x for x in IALIVE_PIC.split()]
-                PIC = list(CAT)
+                MEOW = [x for x in IALIVE_PIC.split()]
+                PIC = list(MEOW)
                 I_IMG = random.choice(PIC)
             if not IALIVE_PIC and ALIVE_PIC:
-                CAT = [x for x in ALIVE_PIC.split()]
-                PIC = list(CAT)
+                MEOW = [x for x in ALIVE_PIC.split()]
+                PIC = list(MEOW)
                 I_IMG = random.choice(PIC)
             elif not IALIVE_PIC:
                 I_IMG = None
@@ -250,13 +250,13 @@ async def inline_handler(event):  # sourcery no-metrics
             elif I_IMG:
                 result = builder.document(
                     I_IMG,
-                    title="Alive cat",
+                    title="Alive meow",
                     text=query,
                     buttons=buttons,
                 )
             else:
                 result = builder.article(
-                    title="Alive cat",
+                    title="Alive meow",
                     text=query,
                     buttons=buttons,
                 )
@@ -309,13 +309,13 @@ async def inline_handler(event):  # sourcery no-metrics
                 try:
                     u = await event.client.get_entity(u)
                     if u.username:
-                        sandy = f"@{u.username}"
+                        Mr_CooL = f"@{u.username}"
                     else:
-                        sandy = f"[{u.first_name}](tg://user?id={u.id})"
+                        Mr_CooL = f"[{u.first_name}](tg://user?id={u.id})"
                     u = int(u.id)
                 except ValueError:
                     # ValueError: Could not find the input entity
-                    sandy = f"[user](tg://user?id={u})"
+                    Mr_CooL = f"[user](tg://user?id={u})"
             except ValueError:
                 # if u is username
                 try:
@@ -323,9 +323,9 @@ async def inline_handler(event):  # sourcery no-metrics
                 except ValueError:
                     return
                 if u.username:
-                    sandy = f"@{u.username}"
+                    Mr_CooL = f"@{u.username}"
                 else:
-                    sandy = f"[{u.first_name}](tg://user?id={u.id})"
+                    Mr_CooL = f"[{u.first_name}](tg://user?id={u.id})"
                 u = int(u.id)
             except Exception:
                 return
@@ -335,7 +335,7 @@ async def inline_handler(event):  # sourcery no-metrics
             buttons = [Button.inline("show message 🔐", data=f"troll_{timestamp}")]
             result = builder.article(
                 title="Troll Message",
-                text=f"Only {sandy} cannot access this message!",
+                text=f"Only {Mr_CooL} cannot access this message!",
                 buttons=buttons,
             )
             await event.answer([result] if result else None)
@@ -359,13 +359,13 @@ async def inline_handler(event):  # sourcery no-metrics
                 try:
                     u = await event.client.get_entity(u)
                     if u.username:
-                        sandy = f"@{u.username}"
+                        Mr_CooL = f"@{u.username}"
                     else:
-                        sandy = f"[{u.first_name}](tg://user?id={u.id})"
+                        Mr_CooL = f"[{u.first_name}](tg://user?id={u.id})"
                     u = int(u.id)
                 except ValueError:
                     # ValueError: Could not find the input entity
-                    sandy = f"[user](tg://user?id={u})"
+                    Mr_CooL = f"[user](tg://user?id={u})"
             except ValueError:
                 # if u is username
                 try:
@@ -373,9 +373,9 @@ async def inline_handler(event):  # sourcery no-metrics
                 except ValueError:
                     return
                 if u.username:
-                    sandy = f"@{u.username}"
+                    Mr_CooL = f"@{u.username}"
                 else:
-                    sandy = f"[{u.first_name}](tg://user?id={u.id})"
+                    Mr_CooL = f"[{u.first_name}](tg://user?id={u.id})"
                 u = int(u.id)
             except Exception:
                 return
@@ -385,7 +385,7 @@ async def inline_handler(event):  # sourcery no-metrics
             buttons = [Button.inline("show message 🔐", data=f"secret_{timestamp}")]
             result = builder.article(
                 title="secret message",
-                text=f"🔒 A whisper message to {sandy}, Only he/she can open it.",
+                text=f"🔒 A whisper message to {Mr_CooL}, Only he/she can open it.",
                 buttons=buttons,
             )
             await event.answer([result] if result else None)
@@ -420,8 +420,8 @@ async def inline_handler(event):  # sourcery no-metrics
         elif string == "help":
             _result = main_menu()
             result = builder.article(
-                title="© CatUserbot Help",
-                description="Help menu for CatUserbot",
+                title="© MeowUserbot Help",
+                description="Help menu for MeowUserbot",
                 text=_result[0],
                 buttons=_result[1],
                 link_preview=False,
@@ -495,10 +495,10 @@ async def inline_handler(event):  # sourcery no-metrics
                         )
                     ]
                 )
-        elif string == "age_verification_alert":
+        elif string == "age_verifion_alert":
             buttons = [
-                Button.inline(text="Yes I'm 18+", data="age_verification_true"),
-                Button.inline(text="No I'm Not", data="age_verification_false"),
+                Button.inline(text="Yes I'm 18+", data="age_verifion_true"),
+                Button.inline(text="No I'm Not", data="age_verifion_false"),
             ]
             markup = event.client.build_reply_markup(buttons)
             photo = types.InputWebDocument(
@@ -513,7 +513,7 @@ async def inline_handler(event):  # sourcery no-metrics
             result = types.InputBotInlineResult(
                 id=str(uuid4()),
                 type="photo",
-                title="Age verification",
+                title="Age verifion",
                 thumb=photo,
                 content=photo,
                 send_message=types.InputBotInlineMessageMediaAuto(
@@ -527,29 +527,29 @@ async def inline_handler(event):  # sourcery no-metrics
             ]
             PM_PIC = gvarstatus("pmpermit_pic")
             if PM_PIC:
-                CAT = [x for x in PM_PIC.split()]
-                PIC = list(CAT)
-                CAT_IMG = random.choice(PIC)
+                MEOW = [x for x in PM_PIC.split()]
+                PIC = list(MEOW)
+                MEOW_IMG = random.choice(PIC)
             else:
-                CAT_IMG = None
+                MEOW_IMG = None
             query = gvarstatus("pmpermit_text")
-            if CAT_IMG and CAT_IMG.endswith((".jpg", ".jpeg", ".png")):
+            if MEOW_IMG and MEOW_IMG.endswith((".jpg", ".jpeg", ".png")):
                 result = builder.photo(
-                    CAT_IMG,
-                    # title="Alive cat",
+                    MEOW_IMG,
+                    # title="Alive meow",
                     text=query,
                     buttons=buttons,
                 )
-            elif CAT_IMG:
+            elif MEOW_IMG:
                 result = builder.document(
-                    CAT_IMG,
-                    title="Alive cat",
+                    MEOW_IMG,
+                    title="Alive meow",
                     text=query,
                     buttons=buttons,
                 )
             else:
                 result = builder.article(
-                    title="Alive cat",
+                    title="Alive meow",
                     text=query,
                     buttons=buttons,
                 )
@@ -557,16 +557,16 @@ async def inline_handler(event):  # sourcery no-metrics
     else:
         buttons = [
             (
-                Button.url("Source code", "https://github.com/sandy1709/catuserbot"),
+                Button.url("Source code", "https://github.com/Mr_CooL1709userbot"),
                 Button.url(
                     "Deploy",
-                    "https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FMr-confused%2Fcatpack&template=https%3A%2F%2Fgithub.com%2FMr-confused%2Fcatpack",
+                    "https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2FMr-confused%2pack&template=https%3A%2F%2Fgithub.com%2FMr-confused%2pack",
                 ),
             )
         ]
         markup = event.client.build_reply_markup(buttons)
         photo = types.InputWebDocument(
-            url=CATLOGO, size=0, mime_type="image/jpeg", attributes=[]
+            url=MEOWLOGO, size=0, mime_type="image/jpeg", attributes=[]
         )
         text, msg_entities = await event.client._parse_message_text(
             "𝗗𝗲𝗽𝗹𝗼𝘆 𝘆𝗼𝘂𝗿 𝗼𝘄𝗻 𝗖𝗮𝘁𝗨𝘀𝗲𝗿𝗯𝗼𝘁.", "md"
@@ -576,7 +576,7 @@ async def inline_handler(event):  # sourcery no-metrics
             type="photo",
             title="𝘾𝙖𝙩𝙐𝙨𝙚𝙧𝙗𝙤𝙩",
             description="Deploy yourself",
-            url="https://github.com/sandy1709/catuserbot",
+            url="https://github.com/Mr_CooL1709userbot",
             thumb=photo,
             content=photo,
             send_message=types.InputBotInlineMessageMediaAuto(
@@ -586,7 +586,7 @@ async def inline_handler(event):  # sourcery no-metrics
         await event.answer([result] if result else None)
 
 
-@catub.tgbot.on(CallbackQuery(data=re.compile(b"close")))
+@Meowub.tgbot.on(CallbackQuery(data=re.compile(b"close")))
 @check_owner
 async def on_plug_in_callback_query_handler(event):
     buttons = [
@@ -595,7 +595,7 @@ async def on_plug_in_callback_query_handler(event):
     await event.edit("Menu Closed", buttons=buttons)
 
 
-@catub.tgbot.on(CallbackQuery(data=re.compile(b"check")))
+@Meowub.tgbot.on(CallbackQuery(data=re.compile(b"check")))
 async def on_plugin_callback_query_handler(event):
     text = f"𝙿𝚕𝚞𝚐𝚒𝚗𝚜: {len(PLG_INFO)}\
         \n𝙲𝚘𝚖𝚖𝚊𝚗𝚍𝚜: {len(CMD_INFO)}\
@@ -606,18 +606,18 @@ async def on_plugin_callback_query_handler(event):
     await event.answer(text, cache_time=0, alert=True)
 
 
-@catub.tgbot.on(CallbackQuery(data=re.compile(b"(.*)_menu")))
+@Meowub.tgbot.on(CallbackQuery(data=re.compile(b"(.*)_menu")))
 @check_owner
 async def on_plug_in_callback_query_handler(event):
-    category = str(event.pattern_match.group(1).decode("UTF-8"))
-    buttons = paginate_help(0, GRP_INFO[category], category)
-    text = f"**Category: **{category}\
-        \n**Total plugins :** {len(GRP_INFO[category])}\
-        \n**Total Commands:** {command_in_category(category)}"
+egory = str(event.pattern_match.group(1).decode("UTF-8"))
+    buttons = paginate_help(0, GRP_INFOegory],egory)
+    text = f"*egory: **egory}\
+        \n**Total plugins :** {len(GRP_INFOegory])}\
+        \n**Total Commands:** {command_inegoryegory)}"
     await event.edit(text, buttons=buttons)
 
 
-@catub.tgbot.on(
+@Meowub.tgbot.on(
     CallbackQuery(
         data=re.compile(b"back_([a-z]+)_([a-z_1-9]+)_([0-9]+)_?([a-z1-9]+)?_?([0-9]+)?")
     )
@@ -625,61 +625,61 @@ async def on_plug_in_callback_query_handler(event):
 @check_owner
 async def on_plug_in_callback_query_handler(event):
     mtype = str(event.pattern_match.group(1).decode("UTF-8"))
-    category = str(event.pattern_match.group(2).decode("UTF-8"))
+egory = str(event.pattern_match.group(2).decode("UTF-8"))
     pgno = int(event.pattern_match.group(3).decode("UTF-8"))
     if mtype == "plugin":
-        buttons = paginate_help(pgno, GRP_INFO[category], category)
-        text = f"**Category: **`{category}`\
-            \n**Total plugins :** __{len(GRP_INFO[category])}__\
-            \n**Total Commands:** __{command_in_category(category)}__"
+        buttons = paginate_help(pgno, GRP_INFOegory],egory)
+        text = f"*egory: **`egory}`\
+            \n**Total plugins :** __{len(GRP_INFOegory])}__\
+            \n**Total Commands:** __{command_inegoryegory)}__"
     else:
-        category_plugins = str(event.pattern_match.group(4).decode("UTF-8"))
-        category_pgno = int(event.pattern_match.group(5).decode("UTF-8"))
+    egory_plugins = str(event.pattern_match.group(4).decode("UTF-8"))
+    egory_pgno = int(event.pattern_match.group(5).decode("UTF-8"))
         buttons = paginate_help(
             pgno,
-            PLG_INFO[category],
-            category,
+            PLG_INFOegory],
+        egory,
             plugins=False,
-            category_plugins=category_plugins,
-            category_pgno=category_pgno,
+        egory_pluginsegory_plugins,
+        egory_pgnoegory_pgno,
         )
-        text = f"**Plugin: **`{category}`\
-                \n**Category: **__{getkey(category)}__\
-                \n**Total Commands:** __{len(PLG_INFO[category])}__"
+        text = f"**Plugin: **`egory}`\
+                \n*egory: **__{getkeyegory)}__\
+                \n**Total Commands:** __{len(PLG_INFOegory])}__"
     await event.edit(text, buttons=buttons)
 
 
-@catub.tgbot.on(CallbackQuery(data=re.compile(rb"mainmenu")))
+@Meowub.tgbot.on(CallbackQuery(data=re.compile(rb"mainmenu")))
 @check_owner
 async def on_plug_in_callback_query_handler(event):
     _result = main_menu()
     await event.edit(_result[0], buttons=_result[1])
 
 
-@catub.tgbot.on(
+@Meowub.tgbot.on(
     CallbackQuery(data=re.compile(rb"(.*)_prev\((.+?)\)_([a-z]+)_?([a-z]+)?_?(.*)?"))
 )
 @check_owner
 async def on_plug_in_callback_query_handler(event):
-    category = str(event.pattern_match.group(1).decode("UTF-8"))
+egory = str(event.pattern_match.group(1).decode("UTF-8"))
     current_page_number = int(event.data_match.group(2).decode("UTF-8"))
     htype = str(event.pattern_match.group(3).decode("UTF-8"))
     if htype == "plugin":
-        buttons = paginate_help(current_page_number - 1, GRP_INFO[category], category)
+        buttons = paginate_help(current_page_number - 1, GRP_INFOegory],egory)
     else:
-        category_plugins = str(event.pattern_match.group(4).decode("UTF-8"))
-        category_pgno = int(event.pattern_match.group(5).decode("UTF-8"))
+    egory_plugins = str(event.pattern_match.group(4).decode("UTF-8"))
+    egory_pgno = int(event.pattern_match.group(5).decode("UTF-8"))
         buttons = paginate_help(
             current_page_number - 1,
-            PLG_INFO[category],
-            category,
+            PLG_INFOegory],
+        egory,
             plugins=False,
-            category_plugins=category_plugins,
-            category_pgno=category_pgno,
+        egory_pluginsegory_plugins,
+        egory_pgnoegory_pgno,
         )
-        text = f"**Plugin: **`{category}`\
-                \n**Category: **__{getkey(category)}__\
-                \n**Total Commands:** __{len(PLG_INFO[category])}__"
+        text = f"**Plugin: **`egory}`\
+                \n*egory: **__{getkeyegory)}__\
+                \n**Total Commands:** __{len(PLG_INFOegory])}__"
         try:
             return await event.edit(text, buttons=buttons)
         except Exception as e:
@@ -687,35 +687,35 @@ async def on_plug_in_callback_query_handler(event):
     await event.edit(buttons=buttons)
 
 
-@catub.tgbot.on(
+@Meowub.tgbot.on(
     CallbackQuery(data=re.compile(rb"(.*)_next\((.+?)\)_([a-z]+)_?([a-z]+)?_?(.*)?"))
 )
 @check_owner
 async def on_plug_in_callback_query_handler(event):
-    category = str(event.pattern_match.group(1).decode("UTF-8"))
+egory = str(event.pattern_match.group(1).decode("UTF-8"))
     current_page_number = int(event.data_match.group(2).decode("UTF-8"))
     htype = str(event.pattern_match.group(3).decode("UTF-8"))
-    category_plugins = event.pattern_match.group(4)
-    if category_plugins:
-        category_plugins = str(category_plugins.decode("UTF-8"))
-    category_pgno = event.pattern_match.group(5)
-    if category_pgno:
-        category_pgno = int(category_pgno.decode("UTF-8"))
+egory_plugins = event.pattern_match.group(4)
+    ifegory_plugins:
+    egory_plugins = stregory_plugins.decode("UTF-8"))
+egory_pgno = event.pattern_match.group(5)
+    ifegory_pgno:
+    egory_pgno = integory_pgno.decode("UTF-8"))
     if htype == "plugin":
-        buttons = paginate_help(current_page_number + 1, GRP_INFO[category], category)
+        buttons = paginate_help(current_page_number + 1, GRP_INFOegory],egory)
     else:
         buttons = paginate_help(
             current_page_number + 1,
-            PLG_INFO[category],
-            category,
+            PLG_INFOegory],
+        egory,
             plugins=False,
-            category_plugins=category_plugins,
-            category_pgno=category_pgno,
+        egory_pluginsegory_plugins,
+        egory_pgnoegory_pgno,
         )
     await event.edit(buttons=buttons)
 
 
-@catub.tgbot.on(
+@Meowub.tgbot.on(
     CallbackQuery(
         data=re.compile(b"(.*)_cmdhelp_([a-z_1-9]+)_([0-9]+)_([a-z]+)_([0-9]+)")
     )
@@ -723,21 +723,21 @@ async def on_plug_in_callback_query_handler(event):
 @check_owner
 async def on_plug_in_callback_query_handler(event):
     cmd = str(event.pattern_match.group(1).decode("UTF-8"))
-    category = str(event.pattern_match.group(2).decode("UTF-8"))
+egory = str(event.pattern_match.group(2).decode("UTF-8"))
     pgno = int(event.pattern_match.group(3).decode("UTF-8"))
-    category_plugins = str(event.pattern_match.group(4).decode("UTF-8"))
-    category_pgno = int(event.pattern_match.group(5).decode("UTF-8"))
+egory_plugins = str(event.pattern_match.group(4).decode("UTF-8"))
+egory_pgno = int(event.pattern_match.group(5).decode("UTF-8"))
     buttons = [
         (
             Button.inline(
                 "⬅️ Back ",
-                data=f"back_command_{category}_{pgno}_{category_plugins}_{category_pgno}",
+                data=f"back_command_egory}_{pgno}_egory_plugins}_egory_pgno}",
             ),
             Button.inline("⚙️ Main Menu", data="mainmenu"),
         )
     ]
     text = f"**Command :** `{tr}{cmd}`\
-        \n**Plugin :** `{category}`\
-        \n**Category :** `{category_plugins}`\
+        \n**Plugin :** `egory}`\
+        \n*egory :** `egory_plugins}`\
         \n\n**✘ Intro :**\n{CMD_INFO[cmd][0]}"
     await event.edit(text, buttons=buttons)
