@@ -18,7 +18,7 @@ from telethon.events import CallbackQuery
 from telethon.utils import get_attributes
 from wget import download
 
-from userbot import catub
+from userbot import meowub
 
 from ..Config import Config
 from ..core import check_owner, pool
@@ -44,7 +44,7 @@ PATH = "./userbot/cache/ytsearch.json"
 plugin_category = "bot"
 
 
-@catub.cat_cmd(
+@meowub.meow_cmd(
     pattern="iytdl(?:\s|$)([\s\S]*)",
     command=("iytdl", plugin_category),
     info={
@@ -87,7 +87,7 @@ async def iytdl_inline(event):
         await catevent.edit("`Sorry!. Can't find any results`")
 
 
-@catub.tgbot.on(
+@meowub.tgbot.on(
     CallbackQuery(
         data=re.compile(b"^ytdl_download_(.*)_([\d]+|mkv|mp4|mp3)(?:_(a|v))?")
     )
@@ -182,7 +182,7 @@ async def ytdl_download_callback(c_q: CallbackQuery):  # sourcery no-metrics
     )
 
 
-@catub.tgbot.on(
+@meowub.tgbot.on(
     CallbackQuery(data=re.compile(b"^ytdl_(listall|back|next|detail)_([a-z0-9]+)_(.*)"))
 )
 @check_owner
