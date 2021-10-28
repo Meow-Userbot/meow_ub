@@ -3,7 +3,7 @@ from datetime import datetime
 
 from telethon.errors import BadRequestError, FloodWaitError, ForbiddenError
 
-from userbot import catub
+from userbot import meowub
 
 from ..Config import Config
 from ..core.logger import logging
@@ -28,7 +28,7 @@ botusername = Config.TG_BOT_USERNAME
 cmhd = Config.COMMAND_HAND_LER
 
 
-@catub.bot_cmd(pattern="^/help$", from_users=Config.OWNER_ID)
+@meowub.bot_cmd(pattern="^/help$", from_users=Config.OWNER_ID)
 async def bot_help(event):
     await event.reply(
         f"""The commands in the bot are:
@@ -53,7 +53,7 @@ async def bot_help(event):
     )
 
 
-@catub.bot_cmd(pattern="^/broadcast$", from_users=Config.OWNER_ID)
+@meowub.bot_cmd(pattern="^/broadcast$", from_users=Config.OWNER_ID)
 async def bot_broadcast(event):
     replied = await event.get_reply_message()
     if not replied:
@@ -112,7 +112,7 @@ async def bot_broadcast(event):
     await br_cast.edit(b_info, parse_mode="html")
 
 
-@catub.cat_cmd(
+@meowub.meow_cmd(
     pattern="bot_users$",
     command=("bot_users", plugin_category),
     info={
@@ -132,7 +132,7 @@ async def ban_starters(event):
     await edit_or_reply(event, msg)
 
 
-@catub.bot_cmd(pattern="^/ban\\s+([\\s\\S]*)", from_users=Config.OWNER_ID)
+@meowub.bot_cmd(pattern="^/ban\\s+([\\s\\S]*)", from_users=Config.OWNER_ID)
 async def ban_botpms(event):
     user_id, reason = await get_user_and_reason(event)
     reply_to = await reply_id(event)
@@ -164,7 +164,7 @@ async def ban_botpms(event):
     await event.reply(msg)
 
 
-@catub.bot_cmd(pattern="^/unban(?:\\s|$)([\\s\\S]*)", from_users=Config.OWNER_ID)
+@meowub.bot_cmd(pattern="^/unban(?:\\s|$)([\\s\\S]*)", from_users=Config.OWNER_ID)
 async def ban_botpms(event):
     user_id, reason = await get_user_and_reason(event)
     reply_to = await reply_id(event)
@@ -188,7 +188,7 @@ async def ban_botpms(event):
     await event.reply(msg)
 
 
-@catub.cat_cmd(
+@meowub.meow_cmd(
     pattern="bblist$",
     command=("bblist", plugin_category),
     info={
@@ -208,7 +208,7 @@ async def ban_starters(event):
     await edit_or_reply(event, msg)
 
 
-@catub.cat_cmd(
+@meowub.meow_cmd(
     pattern="bot_antif (on|off)$",
     command=("bot_antif", plugin_category),
     info={
