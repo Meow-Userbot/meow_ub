@@ -48,8 +48,8 @@ REGEX_ = REGEX()
 sudo_enabledcmds = sudo_enabled_cmds()
 
 
-class CatUserBotClient(TelegramClient):
-    def cat_cmd(
+class MeowUserBotClient(TelegramClient):
+    def Meow_cmd(
         self: TelegramClient,
         pattern: str or tuple = None,
         info: Union[str, Dict[str, Union[str, List[str], Dict[str, str]]]]
@@ -179,8 +179,8 @@ class CatUserBotClient(TelegramClient):
                         pastelink = await paste_message(
                             ftext, pastetype="s", markdown=False
                         )
-                        text = "**CatUserbot Error report**\n\n"
-                        link = "[here](https://t.me/catuserbot_support)"
+                        text = "**MeowUserbot Error report**\n\n"
+                        link = "[here](https://t.me/Meowuserbot_support)"
                         text += "If you wanna you can report it"
                         text += f"- just forward this message {link}.\n"
                         text += (
@@ -191,7 +191,7 @@ class CatUserBotClient(TelegramClient):
                             Config.PRIVATE_GROUP_BOT_API_ID, text, link_preview=False
                         )
 
-            from .session import catub
+            from .session import Meowub
 
             if not func.__doc__ is None:
                 CMD_INFO[command[0]].append((func.__doc__).strip())
@@ -204,18 +204,18 @@ class CatUserBotClient(TelegramClient):
                     except BaseException:
                         LOADED_CMDS.update({command[0]: [wrapper]})
                 if edited:
-                    catub.add_event_handler(
+                    Meowub.add_event_handler(
                         wrapper,
                         MessageEdited(pattern=REGEX_.regex1, outgoing=True, **kwargs),
                     )
-                catub.add_event_handler(
+                Meowub.add_event_handler(
                     wrapper,
                     NewMessage(pattern=REGEX_.regex1, outgoing=True, **kwargs),
                 )
                 if allow_sudo and gvarstatus("sudoenable") is not None:
                     if command is None or command[0] in sudo_enabledcmds:
                         if edited:
-                            catub.add_event_handler(
+                            Meowub.add_event_handler(
                                 wrapper,
                                 MessageEdited(
                                     pattern=REGEX_.regex2,
@@ -223,7 +223,7 @@ class CatUserBotClient(TelegramClient):
                                     **kwargs,
                                 ),
                             )
-                        catub.add_event_handler(
+                        Meowub.add_event_handler(
                             wrapper,
                             NewMessage(
                                 pattern=REGEX_.regex2,
@@ -239,8 +239,8 @@ class CatUserBotClient(TelegramClient):
                 except BaseException:
                     LOADED_CMDS.update({file_test: [func]})
                 if edited:
-                    catub.add_event_handler(func, events.MessageEdited(**kwargs))
-                catub.add_event_handler(func, events.NewMessage(**kwargs))
+                    Meowub.add_event_handler(func, events.MessageEdited(**kwargs))
+                Meowub.add_event_handler(func, events.NewMessage(**kwargs))
             return wrapper
 
         return decorator
@@ -296,8 +296,8 @@ class CatUserBotClient(TelegramClient):
                         pastelink = await paste_message(
                             ftext, pastetype="s", markdown=False
                         )
-                        text = "**CatUserbot Error report**\n\n"
-                        link = "[here](https://t.me/catuserbot_support)"
+                        text = "**MeowUserbot Error report**\n\n"
+                        link = "[here](https://t.me/Meowuserbot_support)"
                         text += "If you wanna you can report it"
                         text += f"- just forward this message {link}.\n"
                         text += (
@@ -308,12 +308,12 @@ class CatUserBotClient(TelegramClient):
                             Config.PRIVATE_GROUP_BOT_API_ID, text, link_preview=False
                         )
 
-            from .session import catub
+            from .session import Meowub
 
             if edited is True:
-                catub.tgbot.add_event_handler(func, events.MessageEdited(**kwargs))
+                Meowub.tgbot.add_event_handler(func, events.MessageEdited(**kwargs))
             else:
-                catub.tgbot.add_event_handler(func, events.NewMessage(**kwargs))
+                Meowub.tgbot.add_event_handler(func, events.NewMessage(**kwargs))
 
             return wrapper
 
@@ -335,14 +335,15 @@ class CatUserBotClient(TelegramClient):
         self.running_processes.clear()
 
 
-CatUserBotClient.fast_download_file = download_file
-CatUserBotClient.fast_upload_file = upload_file
-CatUserBotClient.reload = restart_script
-CatUserBotClient.get_msg_link = get_message_link
-CatUserBotClient.check_testcases = checking
+MeowUserBotClient.fast_download_file = download_file
+MeowUserBotClient.fast_upload_file = upload_file
+MeowUserBotClient.fast_upload_file = upload_file
+MeowUserBotClient.reload = restart_script
+MeowUserBotClient.get_msg_link = get_message_link
+MeowUserBotClient.check_testcases = checking
 try:
     send_message_check = TelegramClient.send_message
 except AttributeError:
-    CatUserBotClient.send_message = send_message
-    CatUserBotClient.send_file = send_file
-    CatUserBotClient.edit_message = edit_message
+    MeowUserBotClient.send_message = send_message
+    MeowUserBotClient.send_file = send_file
+    MeowUserBotClient.edit_message = edit_message
