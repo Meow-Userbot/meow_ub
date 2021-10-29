@@ -31,11 +31,11 @@ name_dl = (
 )
 
 
-async def yt_search(cat):
+async def yt_search(Meow):
     try:
-        cat = urllib.parse.quote(cat)
+        Meow = urllib.parse.quote(Meow)
         html = urllib.request.urlopen(
-            "https://www.youtube.com/results?search_query=" + cat
+            "https://www.youtube.com/results?search_query=" + Meow
         )
         user_data = re.findall(r"watch\?v=(\S{11})", html.read().decode())
         video_link = []
@@ -111,7 +111,7 @@ def get_yt_video_id(url: str):
         return match.group(1)
 
 
-# Based on https://gist.github.com/AgentOak/34d47c65b1d28829bb17c24c04a0096f
+# Based on https://gist.github.com/AgentOak/3FaRoR1WUeDewSND8Ed1vyn1Lk5yXq8ZUo
 def get_choice_by_id(choice_id, media_type: str):
     if choice_id == "mkv":
         # default format selection
