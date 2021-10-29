@@ -26,53 +26,53 @@ async def media_to_pic(event, reply, noedits=False):  # sourcery no-metrics
     ]:
         return event, None
     if not noedits:
-        catevent = await edit_or_reply(
+        Meowevent = await edit_or_reply(
             event, "`Transfiguration Time! Converting to ....`"
         )
 
     else:
-        catevent = event
-    catmedia = None
-    catfile = os.path.join("./temp/", "meme.png")
-    if os.path.exists(catfile):
-        os.remove(catfile)
+        Meowevent = event
+    Meowmedia = None
+    Meowfile = os.path.join("./temp/", "meme.png")
+    if os.path.exists(Meowfile):
+        os.remove(Meowfile)
     if mediatype == "Photo":
-        catmedia = await reply.download_media(file="./temp")
-        im = Image.open(catmedia)
-        im.save(catfile)
+        Meowmedia = await reply.download_media(file="./temp")
+        im = Image.open(Meowmedia)
+        im.save(Meowfile)
     elif mediatype in ["Audio", "Voice"]:
-        await event.client.download_media(reply, catfile, thumb=-1)
+        await event.client.download_media(reply, Meowfile, thumb=-1)
     elif mediatype == "Sticker":
-        catmedia = await reply.download_media(file="./temp")
-        if catmedia.endswith(".tgs"):
-            catcmd = f"lottie_convert.py --frame 0 -if lottie -of png '{catmedia}' '{catfile}'"
-            stdout, stderr = (await runcmd(catcmd))[:2]
+        Meowmedia = await reply.download_media(file="./temp")
+        if Meowmedia.endswith(".tgs"):
+            Meowcmd = f"lottie_convert.py --frame 0 -if lottie -of png '{Meowmedia}' '{Meowfile}'"
+            stdout, stderr = (await runcmd(Meowcmd))[:2]
             if stderr:
                 LOGS.info(stdout + stderr)
-        elif catmedia.endswith(".webp"):
-            im = Image.open(catmedia)
-            im.save(catfile)
+        elif Meowmedia.endswith(".webp"):
+            im = Image.open(Meowmedia)
+            im.save(Meowfile)
     elif mediatype in ["Round Video", "Video", "Gif"]:
-        await event.client.download_media(reply, catfile, thumb=-1)
-        if not os.path.exists(catfile):
-            catmedia = await reply.download_media(file="./temp")
+        await event.client.download_media(reply, Meowfile, thumb=-1)
+        if not os.path.exists(Meowfile):
+            Meowmedia = await reply.download_media(file="./temp")
             clip = VideoFileClip(media)
             try:
-                clip = clip.save_frame(catfile, 0.1)
+                clip = clip.save_frame(Meowfile, 0.1)
             except Exception:
-                clip = clip.save_frame(catfile, 0)
+                clip = clip.save_frame(Meowfile, 0)
     elif mediatype == "Document":
         mimetype = reply.document.mime_type
         mtype = mimetype.split("/")
         if mtype[0].lower() == "image":
-            catmedia = await reply.download_media(file="./temp")
-            im = Image.open(catmedia)
-            im.save(catfile)
-    if catmedia and os.path.lexists(catmedia):
-        os.remove(catmedia)
-    if os.path.lexists(catfile):
-        return catevent, catfile, mediatype
-    return catevent, None
+            Meowmedia = await reply.download_media(file="./temp")
+            im = Image.open(Meowmedia)
+            im.save(Meowfile)
+    if Meowmedia and os.path.lexists(Meowmedia):
+        os.remove(Meowmedia)
+    if os.path.lexists(Meowfile):
+        return Meowevent, Meowfile, mediatype
+    return Meowevent, None
 
 
 async def take_screen_shot(
