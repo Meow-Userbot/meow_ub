@@ -1,5 +1,5 @@
 """
-credits to @mrconfused and @sandy1709
+credits to @cooolmj and @craziest_peep
 """
 #    Copyright (C) 2020  sandeep.n(π.$)
 #    This program is free software: you can redistribute it and/or modify
@@ -17,49 +17,45 @@ from sqlalchemy import Column, String
 from . import BASE, SESSION
 
 
-class GBan(BASE):
-    __tablename__ = "gban"
-    chat_id = Column(String(14), primary_key=True)
-    reason = Column(String(127))
+class Gdrive(BASE):
+    __tablename__ = "Meowgdrive"
+    Meow = Column(String(50), primary_key=True)
 
-    def __init__(self, chat_id, reason=""):
-        self.chat_id = chat_id
-        self.reason = reason
+    def __init__(self, Meow):
+        self.Meow = Meow
 
 
-GBan.__table__.create(checkfirst=True)
+Gdrive.__table__.create(checkfirst=True)
 
 
-def is_gbanned(chat_id):
+def is_folder(folder_id):
     try:
-        return SESSION.query(GBan).filter(GBan.chat_id == str(chat_id)).one()
+        return SESSION.query(Gdrive).filter(Gdrive.Meow == str(folder_id))
     except BaseException:
         return None
     finally:
         SESSION.close()
 
 
-def get_gbanuser(chat_id):
-    try:
-        return SESSION.query(GBan).get(str(chat_id))
-    finally:
-        SESSION.close()
-
-
-def catgban(chat_id, reason):
-    adder = GBan(str(chat_id), str(reason))
+def gparent_id(folder_id):
+    adder = SESSION.query(Gdrive).get(folder_id)
+    if not adder:
+        adder = Gdrive(folder_id)
     SESSION.add(adder)
     SESSION.commit()
 
 
-def catungban(chat_id):
-    rem = SESSION.query(GBan).get(str(chat_id))
-    if rem:
-        SESSION.delete(rem)
+def get_parent_id():
+    try:
+        return SESSION.query(Gdrive).all()
+    except BaseException:
+        return None
+    finally:
+        SESSION.close()
+
+
+def rmparent_id(folder_id):
+    note = SESSION.query(Gdrive).filter(Gdrive.Meow == folder_id)
+    if note:
+        note.delete()
         SESSION.commit()
-
-
-def get_all_gbanned():
-    rem = SESSION.query(GBan).all()
-    SESSION.close()
-    return rem
