@@ -1,145 +1,61 @@
-import threading
-
-from sqlalchemy import Column, PickleType, UnicodeText, distinct, func
+"""
+credits to @mrconfused and @sandy1709
+"""
+#    Copyright (C) 2020  sandeep.n(π.$)
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#   You should have received a copy of the GNU Affero General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from sqlalchemy import Column, String
 
 from . import BASE, SESSION
 
 
-class Cat_GlobalCollection(BASE):
-    __tablename__ = "cat_globalcollection"
-    keywoard = Column(UnicodeText, primary_key=True)
-    contents = Column(PickleType, primary_key=True, nullable=False)
+class Gdrive(BASE):
+    __tablename__ = "Meowgdrive"
+    Meow = Column(String(50), primary_key=True)
 
-    def __init__(self, keywoard, contents):
-        self.keywoard = keywoard
-        self.contents = tuple(contents)
-
-    def __repr__(self):
-        return "<Cat Global Collection lists '%s' for %s>" % (
-            self.contents,
-            self.keywoard,
-        )
-
-    def __eq__(self, other):
-        return bool(
-            isinstance(other, Cat_GlobalCollection)
-            and self.keywoard == other.keywoard
-            and self.contents == other.contents
-        )
+    def __init__(self, Meow):
+        self.Meow = Meow
 
 
-Cat_GlobalCollection.__table__.create(checkfirst=True)
-
-CAT_GLOBALCOLLECTION = threading.RLock()
+Gdrive.__table__.create(checkfirst=True)
 
 
-class COLLECTION_SQL:
-    def __init__(self):
-        self.CONTENTS_LIST = {}
+def is_folder(folder_id):
+    try:
+        return SESSION.query(Gdrive).filter(Gdrive.Meow == str(folder_id))
+    except BaseException:
+        return None
+    finally:
+        SESSION.close()
 
 
-COLLECTION_SQL_ = COLLECTION_SQL()
+def gparent_id(folder_id):
+    adder = SESSION.query(Gdrive).get(folder_id)
+    if not adder:
+        adder = Gdrive(folder_id)
+    SESSION.add(adder)
+    SESSION.commit()
 
 
-def add_to_collectionlist(keywoard, contents):
-    with CAT_GLOBALCOLLECTION:
-        keyword_items = Cat_GlobalCollection(keywoard, tuple(contents))
+def get_parent_id():
+    try:
+        return SESSION.query(Gdrive).all()
+    except BaseException:
+        return None
+    finally:
+        SESSION.close()
 
-        SESSION.merge(keyword_items)
+
+def rmparent_id(folder_id):
+    note = SESSION.query(Gdrive).filter(Gdrive.Meow == folder_id)
+    if note:
+        note.delete()
         SESSION.commit()
-        COLLECTION_SQL_.CONTENTS_LIST.setdefault(keywoard, set()).add(tuple(contents))
-
-
-def rm_from_collectionlist(keywoard, contents):
-    with CAT_GLOBALCOLLECTION:
-        keyword_items = SESSION.query(Cat_GlobalCollection).get(
-            (keywoard, tuple(contents))
-        )
-        if keyword_items:
-            if tuple(contents) in COLLECTION_SQL_.CONTENTS_LIST.get(keywoard, set()):
-                COLLECTION_SQL_.CONTENTS_LIST.get(keywoard, set()).remove(
-                    tuple(contents)
-                )
-            SESSION.delete(keyword_items)
-            SESSION.commit()
-            return True
-
-        SESSION.close()
-        return False
-
-
-def is_in_collectionlist(keywoard, contents):
-    with CAT_GLOBALCOLLECTION:
-        keyword_items = COLLECTION_SQL_.CONTENTS_LIST.get(keywoard, set())
-        return any(tuple(contents) == list1 for list1 in keyword_items)
-
-
-def del_keyword_collectionlist(keywoard):
-    with CAT_GLOBALCOLLECTION:
-        keyword_items = (
-            SESSION.query(Cat_GlobalCollection.keywoard)
-            .filter(Cat_GlobalCollection.keywoard == keywoard)
-            .delete()
-        )
-        COLLECTION_SQL_.CONTENTS_LIST.pop(keywoard)
-        SESSION.commit()
-
-
-def get_item_collectionlist(keywoard):
-    return COLLECTION_SQL_.CONTENTS_LIST.get(keywoard, set())
-
-
-def get_collectionlist_items():
-    try:
-        chats = SESSION.query(Cat_GlobalCollection.keywoard).distinct().all()
-        return [i[0] for i in chats]
-    finally:
-        SESSION.close()
-
-
-def num_collectionlist():
-    try:
-        return SESSION.query(Cat_GlobalCollection).count()
-    finally:
-        SESSION.close()
-
-
-def num_collectionlist_item(keywoard):
-    try:
-        return (
-            SESSION.query(Cat_GlobalCollection.keywoard)
-            .filter(Cat_GlobalCollection.keywoard == keywoard)
-            .count()
-        )
-    finally:
-        SESSION.close()
-
-
-def num_collectionlist_items():
-    try:
-        return SESSION.query(
-            func.count(distinct(Cat_GlobalCollection.keywoard))
-        ).scalar()
-    finally:
-        SESSION.close()
-
-
-def __load_item_collectionlists():
-    try:
-        chats = SESSION.query(Cat_GlobalCollection.keywoard).distinct().all()
-        for (keywoard,) in chats:
-            COLLECTION_SQL_.CONTENTS_LIST[keywoard] = []
-
-        all_groups = SESSION.query(Cat_GlobalCollection).all()
-        for x in all_groups:
-            COLLECTION_SQL_.CONTENTS_LIST[x.keywoard] += [x.contents]
-
-        COLLECTION_SQL_.CONTENTS_LIST = {
-            x: set(y) for x, y in COLLECTION_SQL_.CONTENTS_LIST.items()
-        }
-
-    finally:
-        SESSION.close()
-
-
-__load_item_collectionlists()
