@@ -5,7 +5,7 @@ from telethon.tl.types import ChatBannedRights
 
 from ..sql_helper import antiflood_sql as sql
 from ..utils import is_admin
-from . import catub, edit_or_reply
+from . import Meowub, edit_or_reply
 
 plugin_category = "admin"
 CHAT_FLOOD = sql.__load_flood_settings()
@@ -15,12 +15,12 @@ ANTI_FLOOD_WARN_MODE = ChatBannedRights(
 )
 
 
-@catub.cat_cmd(incoming=True, groups_only=True)
+@Meowub.Meow_cmd(incoming=True, groups_only=True)
 async def _(event):
     if not CHAT_FLOOD:
         return
-    catadmin = await is_admin(event.client, event.chat_id, event.client.uid)
-    if not catadmin:
+    Meowadmin = await is_admin(event.client, event.chat_id, event.client.uid)
+    if not Meowadmin:
         return
     if str(event.chat_id) not in CHAT_FLOOD:
         return
@@ -54,7 +54,7 @@ because he reached the defined flood limit.""",
         )
 
 
-@catub.cat_cmd(
+@Meowub.Meow_cmd(
     pattern="setflood(?:\s|$)([\s\S]*)",
     command=("setflood", plugin_category),
     info={
