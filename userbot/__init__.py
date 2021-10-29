@@ -4,26 +4,24 @@ import heroku3
 
 from .Config import Config
 from .core.logger import logging
-from .core.session import catub
+from .core.session import Meowub
 from .sql_helper.globals import addgvar, delgvar, gvarstatus
 
 __version__ = "3.0.5"
 __license__ = "GNU Affero General Public License v3.0"
-__author__ = "CatUserBot <https://github.com/sandy1709/catuserbot>"
-__copyright__ = "CatUserBot Copyright (C) 2020 - 2021  " + __author__
+__author__ = "Meowuserbot <https://github.com/Meow-Userbot/meow_ub>"
+__copyright__ = "Meowuserbot Copyright (C) 2020 - 2021  " + __author__
 
-catub.version = __version__
-catub.tgbot.version = __version__
-LOGS = logging.getLogger("CatUserbot")
-bot = catub
+Meowub.version = __version__
+Meowub.tgbot.version = __version__
+LOGS = logging.getLogger("Meowuserbot")
+bot = Meowub
 
 StartTime = time.time()
-catversion = "3.0.4"
+Meowversion = "3.0.4"
 
-if Config.UPSTREAM_REPO == "badcat":
-    UPSTREAM_REPO_URL = "https://github.com/Jisan09/catuserbot"
-elif Config.UPSTREAM_REPO == "goodcat":
-    UPSTREAM_REPO_URL = "https://github.com/sandy1709/catuserbot"
+if Config.UPSTREAM_REPO == "Meowub":
+    UPSTREAM_REPO_URL = "https://github.com/Meow-Userbot/meow_ub"
 else:
     UPSTREAM_REPO_URL = Config.UPSTREAM_REPO
 
